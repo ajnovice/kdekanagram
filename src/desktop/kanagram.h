@@ -76,6 +76,8 @@ class Kanagram : public KMainWindow
 
         /** hide the hint box and text. */
         void hideHint();
+	/** hide the picture hint*/
+	void hidePicHint();
 
         /** reset the input box in preparation for the next word entry */
         void resetInputBox();
@@ -112,6 +114,9 @@ class Kanagram : public KMainWindow
 
         /** show/hide the hint */
         void slotToggleHint();
+	
+	/**show/hide the picture hint */
+	void slotTogglePicHint;///for picture hints
 
         /** slot to save non kcfg_ settings */
         void slotSaveSettings();
@@ -265,6 +270,7 @@ class Kanagram : public KMainWindow
         bool m_overHintBox;
 
         bool m_showHint;
+	bool m_showPicHint;//////////////////////to display picture hints
 
         /** colors for use in drawing text and lines */
         QColor m_fillColor; 

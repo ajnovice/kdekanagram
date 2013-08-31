@@ -78,7 +78,7 @@ Kanagram::Kanagram()
     m_overHelp(false), m_overQuit(false), m_overReveal(false), m_overHint(false),
     m_overUp(false), m_overAboutKDE(false), m_overAboutApp(false),
     m_overHandbook(false), m_overSwitcher(false), m_overLogo(false),
-    m_overHintBox(false), m_showHint(false), m_player(NULL), m_wordRevealed(false),
+    m_overHintBox(false), m_showHint(false),m_showPicHint(false), m_player(NULL), m_wordRevealed(false),///////m_showPicHint for picture hints
     m_actionCollection(NULL)
 {
     setAttribute(Qt::WA_StaticContents);
@@ -394,8 +394,21 @@ void Kanagram::paintEvent(QPaintEvent *)
         p.drawText(int(694 * m_xRatio), int(330 * m_yRatio), int(250 * m_xRatio), int(110 * m_yRatio),
                 Qt::TextWordWrap | Qt::AlignCenter, hint);
     }
+    ///////////////////////
+    if(m_showPicHint)
+    {
+    
+      
+      
+    }
+    
+    /////for picture hints
+    
+    ///////////////
+    
+    
 
-    if (m_overHelp && !m_showHint)
+    if (m_overHelp && !m_showHint && !m_showPicHint)/////one more condition for picture hints
     {
         if (m_overAboutApp)
         {
@@ -646,6 +659,28 @@ void Kanagram::slotToggleHint()
     }
     update();
 }
+/////////////
+void kanagram::slotTogglePicHint()
+{
+   if (m_showPicHint)
+    {
+        m_showPicHint = false;
+    }
+    else
+    {
+        if (m_hintHideTime)
+        {
+            m_hintTimer->start(m_hintHideTime * 1000);
+        }
+        m_showPicHint = true;
+       // randomHintImage();
+    }
+    update();
+  
+  
+}
+
+/////////
 
 void Kanagram::mousePressEvent(QMouseEvent *e)
 {
@@ -674,7 +709,7 @@ void Kanagram::mousePressEvent(QMouseEvent *e)
         m_helpMenu->aboutApplication();
     }
 
-    if (!m_showHint && m_overHelp)
+    if (!m_showHint && m_overHelp && !m_showPicHint)
     {
         if (m_handbookRect.contains(e->pos()))
         {
@@ -762,7 +797,7 @@ void Kanagram::mouseMoveEvent(QMouseEvent *e)
         haveToUpdate = true;
     }
 
-    if (!m_showHint)
+    if (!m_showHint ||!m_showPicHint)
     {
         CheckRect(m_handbookRect, p, m_overHandbook, haveToUpdate);
         CheckRect(m_aboutKDERect, p, m_overAboutKDE, haveToUpdate);
@@ -908,6 +943,18 @@ void Kanagram::hideHint()
     }
     update();
 }
+//////////////
+void kanagram::hidePicHint()
+{
+  if(m_showPicHint == true)
+  {
+      m_showPicHint = false;
+  }
+  update();
+  
+}
+
+////////////
 
 void Kanagram::resetInputBox()
 {
