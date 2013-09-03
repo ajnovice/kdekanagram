@@ -116,7 +116,7 @@ class Kanagram : public KMainWindow
         void slotToggleHint();
 	
 	/**show/hide the picture hint */
-	void slotTogglePicHint;///for picture hints
+	void slotTogglePicHint();///for picture hints
 
         /** slot to save non kcfg_ settings */
         void slotSaveSettings();
@@ -244,6 +244,7 @@ class Kanagram : public KMainWindow
         QRect m_quitRect;
         QRect m_revealRect;
         QRect m_hintRect;
+	QRect m_picHintRect;
         QRect m_upRect;
         QRect m_aboutKDERect;
         QRect m_aboutAppRect; 
@@ -260,7 +261,8 @@ class Kanagram : public KMainWindow
         bool m_overHelp; 
         bool m_overQuit; 
         bool m_overReveal; 
-        bool m_overHint; 
+        bool m_overHint;
+	bool m_overPicHint;
         bool m_overUp; 
         bool m_overAboutKDE; 
         bool m_overAboutApp; 

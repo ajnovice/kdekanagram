@@ -1,0 +1,144 @@
+diff --git a/src/desktop/kanagram.cpp b/src/desktop/kanagram.cpp
+index 7f2c6e7..db150bf 100644
+--- a/src/desktop/kanagram.cpp
++++ b/src/desktop/kanagram.cpp
+@@ -78,7 +78,7 @@ Kanagram::Kanagram()
+     m_overHelp(false), m_overQuit(false), m_overReveal(false), m_overHint(false),
+     m_overUp(false), m_overAboutKDE(false), m_overAboutApp(false),
+     m_overHandbook(false), m_overSwitcher(false), m_overLogo(false),
+-    m_overHintBox(false), m_showHint(false), m_player(NULL), m_wordRevealed(false),
++    m_overHintBox(false), m_showHint(false),m_showPicHint(false), m_player(NULL), m_wordRevealed(false),///////m_showPicHint for picture hints
+     m_actionCollection(NULL)
+ {
+     setAttribute(Qt::WA_StaticContents);
+@@ -394,8 +394,21 @@ void Kanagram::paintEvent(QPaintEvent *)
+         p.drawText(int(694 * m_xRatio), int(330 * m_yRatio), int(250 * m_xRatio), int(110 * m_yRatio),
+                 Qt::TextWordWrap | Qt::AlignCenter, hint);
+     }
++    ///////////////////////
++    if(m_showPicHint)
++    {
++    
++      
++      
++    }
++    
++    /////for picture hints
++    
++    ///////////////
++    
++    
+ 
+-    if (m_overHelp && !m_showHint)
++    if (m_overHelp && !m_showHint && !m_showPicHint)/////one more condition for picture hints
+     {
+         if (m_overAboutApp)
+         {
+@@ -646,6 +659,28 @@ void Kanagram::slotToggleHint()
+     }
+     update();
+ }
++/////////////
++void kanagram::slotTogglePicHint()
++{
++   if (m_showPicHint)
++    {
++        m_showPicHint = false;
++    }
++    else
++    {
++        if (m_hintHideTime)
++        {
++            m_hintTimer->start(m_hintHideTime * 1000);
++        }
++        m_showPicHint = true;
++       // randomHintImage();
++    }
++    update();
++  
++  
++}
++
++/////////
+ 
+ void Kanagram::mousePressEvent(QMouseEvent *e)
+ {
+@@ -674,7 +709,7 @@ void Kanagram::mousePressEvent(QMouseEvent *e)
+         m_helpMenu->aboutApplication();
+     }
+ 
+-    if (!m_showHint && m_overHelp)
++    if (!m_showHint && m_overHelp && !m_showPicHint)
+     {
+         if (m_handbookRect.contains(e->pos()))
+         {
+@@ -762,7 +797,7 @@ void Kanagram::mouseMoveEvent(QMouseEvent *e)
+         haveToUpdate = true;
+     }
+ 
+-    if (!m_showHint)
++    if (!m_showHint ||!m_showPicHint)
+     {
+         CheckRect(m_handbookRect, p, m_overHandbook, haveToUpdate);
+         CheckRect(m_aboutKDERect, p, m_overAboutKDE, haveToUpdate);
+@@ -908,6 +943,18 @@ void Kanagram::hideHint()
+     }
+     update();
+ }
++//////////////
++void kanagram::hidePicHint()
++{
++  if(m_showPicHint == true)
++  {
++      m_showPicHint = false;
++  }
++  update();
++  
++}
++
++////////////
+ 
+ void Kanagram::resetInputBox()
+ {
+diff --git a/src/desktop/kanagram.h b/src/desktop/kanagram.h
+index efa6a89..410e8c3 100644
+--- a/src/desktop/kanagram.h
++++ b/src/desktop/kanagram.h
+@@ -76,6 +76,8 @@ class Kanagram : public KMainWindow
+ 
+         /** hide the hint box and text. */
+         void hideHint();
++	/** hide the picture hint*/
++	void hidePicHint();
+ 
+         /** reset the input box in preparation for the next word entry */
+         void resetInputBox();
+@@ -112,6 +114,9 @@ class Kanagram : public KMainWindow
+ 
+         /** show/hide the hint */
+         void slotToggleHint();
++	
++	/**show/hide the picture hint */
++	void slotTogglePicHint;///for picture hints
+ 
+         /** slot to save non kcfg_ settings */
+         void slotSaveSettings();
+@@ -265,6 +270,7 @@ class Kanagram : public KMainWindow
+         bool m_overHintBox;
+ 
+         bool m_showHint;
++	bool m_showPicHint;//////////////////////to display picture hints
+ 
+         /** colors for use in drawing text and lines */
+         QColor m_fillColor; 
+diff --git a/src/harmattan/kanagram-harmattan.desktop b/src/harmattan/kanagram-harmattan.desktop
+old mode 100644
+new mode 100755
+index 88c559a..2771286
+--- a/src/harmattan/kanagram-harmattan.desktop
++++ b/src/harmattan/kanagram-harmattan.desktop
+@@ -1,3 +1,4 @@
++#!/usr/bin/env xdg-open
+ [Desktop Entry]
+ Name=Kanagram
+ Name[ast]=Kanagram

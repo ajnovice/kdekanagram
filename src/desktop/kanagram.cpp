@@ -50,6 +50,7 @@
 
 static const char* m_textRevealWord = I18N_NOOP("reveal word");
 static const char* m_textHint = I18N_NOOP("hint");
+static const char* m_textPicHint = I18N_NOOP("Picture Hint");
 static const char* m_nextText = I18N_NOOP("Next Anagram");
 
 double kWindowWidth = 1000.0;
@@ -75,7 +76,7 @@ double yScaleQuitButton = 77.5 / kWindowHeight;
 
 Kanagram::Kanagram()
 : KMainWindow(), m_game(NULL), m_overNext(false), m_overConfig(false),
-    m_overHelp(false), m_overQuit(false), m_overReveal(false), m_overHint(false),
+    m_overHelp(false), m_overQuit(false), m_overReveal(false), m_overHint(false),m_overPicHint(false),////////////
     m_overUp(false), m_overAboutKDE(false), m_overAboutApp(false),
     m_overHandbook(false), m_overSwitcher(false), m_overLogo(false),
     m_overHintBox(false), m_showHint(false),m_showPicHint(false), m_player(NULL), m_wordRevealed(false),///////m_showPicHint for picture hints
@@ -330,6 +331,7 @@ void Kanagram::paintEvent(QPaintEvent *)
         drawTextNew(p, reveal, Qt::AlignBottom | Qt::AlignRight, 6, 0, m_blackboardRect, m_overReveal, m_cornerFontSize);
     }
     drawTextNew(p, i18n(m_textHint), Qt::AlignBottom | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overHint, m_cornerFontSize);
+    drawTextNew(p, i18n(m_textPicHint), Qt::AlignTop | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overPicHint, m_cornerFontSize);//////////for picture hint
 
     // update these rects because we have access to the painter and thus the fontsize here
     QFont font = KGlobalSettings::generalFont();
@@ -338,6 +340,7 @@ void Kanagram::paintEvent(QPaintEvent *)
     QFontMetrics fm(font);
     QRect r = innerRect(m_blackboardRect, 6, 0);
     m_hintRect = fm.boundingRect(r, Qt::AlignBottom|Qt::AlignLeft, i18n(m_textHint));
+    m_picHintRect = fm.boundingRect(r, Qt::AlignTop|Qt::AlignLeft, i18n(m_textPicHint));/////for picture hint clickable text
     m_hintBoxRect = QRect(int(684.813 * m_xRatio), int(319.896 * m_yRatio), int(xEyesScale * width()), int(yEyesScale * height()));
     r = innerRect(m_blackboardRect, 6, 0);
     m_revealRect = fm.boundingRect(r, Qt::AlignBottom|Qt::AlignRight, reveal);
@@ -660,7 +663,7 @@ void Kanagram::slotToggleHint()
     update();
 }
 /////////////
-void kanagram::slotTogglePicHint()
+void Kanagram::slotTogglePicHint()
 {
    if (m_showPicHint)
     {
@@ -748,6 +751,10 @@ void Kanagram::mousePressEvent(QMouseEvent *e)
     {
         slotToggleHint();
     }
+    if (m_picHintRect.contains(e->pos()))
+    {
+        slotTogglePicHint();
+    }
 
     if (m_upRect.contains(e->pos()) && !m_inputBox->text().isEmpty())
     {
@@ -781,6 +788,7 @@ void Kanagram::mouseMoveEvent(QMouseEvent *e)
     CheckRect(m_helpRect, p, m_overHelp, haveToUpdate);
     CheckRect(m_quitRect, p, m_overQuit, haveToUpdate);
     CheckRect(m_hintRect, p, m_overHint, haveToUpdate);
+    CheckRect(m_picHintRect, p, m_overPicHint, haveToUpdate);
     CheckRect(m_hintBoxRect, p, m_overHintBox, haveToUpdate);
     CheckRect(m_revealRect, p, m_overReveal, haveToUpdate);
     CheckRect(m_upRect, p, m_overUp, haveToUpdate);
@@ -804,7 +812,7 @@ void Kanagram::mouseMoveEvent(QMouseEvent *e)
     }
 
     if (m_overAboutKDE || m_overHandbook || m_overSwitcher || m_overNext || m_overQuit
-            || m_overConfig || (m_overReveal && !m_wordRevealed) || m_overHint || (m_overUp && !m_inputBox->text().isEmpty())
+            || m_overConfig || (m_overReveal && !m_wordRevealed) || m_overHint  || m_overPicHint || (m_overUp && !m_inputBox->text().isEmpty())
             || m_overAboutApp || m_overHintBox || m_overLogo)
     {
         this->setCursor(Qt::PointingHandCursor);
@@ -944,7 +952,7 @@ void Kanagram::hideHint()
     update();
 }
 //////////////
-void kanagram::hidePicHint()
+void Kanagram::hidePicHint()
 {
   if(m_showPicHint == true)
   {
