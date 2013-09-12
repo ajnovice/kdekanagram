@@ -50,7 +50,7 @@
 
 static const char* m_textRevealWord = I18N_NOOP("reveal word");
 static const char* m_textHint = I18N_NOOP("hint");
-static const char* m_textPicHint = I18N_NOOP("Picture Hint");
+static const char* m_textPicHint = I18N_NOOP("picture hint");
 static const char* m_nextText = I18N_NOOP("Next Anagram");
 
 double kWindowWidth = 1000.0;
@@ -331,7 +331,7 @@ void Kanagram::paintEvent(QPaintEvent *)
         drawTextNew(p, reveal, Qt::AlignBottom | Qt::AlignRight, 6, 0, m_blackboardRect, m_overReveal, m_cornerFontSize);
     }
     drawTextNew(p, i18n(m_textHint), Qt::AlignBottom | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overHint, m_cornerFontSize);
-    drawTextNew(p, i18n(m_textPicHint), Qt::AlignTop | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overPicHint, m_cornerFontSize);//////////for picture hint
+    drawTextNew(p, i18n(m_textPicHint), Qt::AlignTop | Qt::AlignLeft, 6, 8, m_blackboardRect, m_overPicHint, m_cornerFontSize);//////////for picture hint
 
     // update these rects because we have access to the painter and thus the fontsize here
     QFont font = KGlobalSettings::generalFont();
@@ -400,8 +400,9 @@ void Kanagram::paintEvent(QPaintEvent *)
     ///////////////////////
     if(m_showPicHint)
     {
-    
-      
+	
+      QImage *a = QImage(KanagramGame::picHint().url(),0);
+      p.drawImage(a);
       
     }
     
@@ -671,7 +672,7 @@ void Kanagram::slotTogglePicHint()
     }
     else
     {
-        if (m_hintHideTime)
+        if (m_hintHideTime || KanagramGame::picHint()->text.isEmpty())
         {
             m_hintTimer->start(m_hintHideTime * 1000);
         }
@@ -945,7 +946,7 @@ void Kanagram::slotEnableApplyButton()
 
 void Kanagram::hideHint()
 {
-    if (m_showHint == true)
+    if (m_showHint == true )
     {
         m_showHint = false;
     }
@@ -954,7 +955,7 @@ void Kanagram::hideHint()
 //////////////
 void Kanagram::hidePicHint()
 {
-  if(m_showPicHint == true)
+  if(m_showPicHint == true || KanagramGame::picHint()->text.isEmpty())
   {
       m_showPicHint = false;
   }

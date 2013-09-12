@@ -22,6 +22,7 @@
  ***************************************************************************/
 
 #include "kanagramgame.h"
+#include "../../../../../../usr/include/kde4/kurl.h"
 
 #include "kanagramsettings.h"
 
@@ -35,10 +36,12 @@
 
 #include <QtCore/QFileInfo>
 
+
 KanagramGame::KanagramGame() : m_index(0), m_document(NULL)
 {
     // Get the list of vocabularies
     refreshVocabularyList();
+    
 
     // Load the default vocabulary
     loadDefaultVocabulary();
@@ -199,6 +202,8 @@ void KanagramGame::nextAnagram()
 
         // lowercase the entry text so german words that start capitalized will be lowercased
         m_originalWord = translation->text().toLower();
+	m_picHintUrl = translation->imageUrl();
+	qimage = QImage(m_picHintUrl,.kvtml);
         m_answeredWords.append(m_originalWord);
         createAnagram();
         m_hint = translation->comment();
@@ -207,12 +212,17 @@ void KanagramGame::nextAnagram()
         {
             m_hint = i18n("No hint");
         }
+        if(m_picHintUrl.isEmpty())
+	{
+	    m_picHintUrl=i18n("No picture hint")
+	}
     }
     else
     {
         // this file has no entries
         m_originalWord = "";
         m_hint = "";
+	m_picHintUrl = "";
         // TODO: add some error reporting here
     }
 }
@@ -334,5 +344,12 @@ void KanagramGame::setCurrentCategory(int index)
         KanagramSettings::setCurrentCategory(0);
     }
 }
+
+////function to return the picture url
+KUrl KanagramGame::picHint()
+{
+	
+}
+
 
 #include "kanagramgame.moc"

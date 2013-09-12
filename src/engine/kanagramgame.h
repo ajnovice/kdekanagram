@@ -27,8 +27,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 #include <QtCore/QHash>
+#include <QImage>
 
 #include <krandomsequence.h>
+
 
 class KEduVocDocument;
 
@@ -59,6 +61,9 @@ class KANAGRAM_ENGINE_EXPORT KanagramGame : public QObject
 
         /** Get this anagram's answer */
         QString word() const;
+	
+	////for picture hint URl
+	KUrl picHint();
 
         /** Get the current vocabulary file's title */
         QString documentTitle() const;
@@ -156,6 +161,11 @@ class KANAGRAM_ENGINE_EXPORT KanagramGame : public QObject
 
         /** The current vocabulary's filename */
         QString m_filename;
+	
+	////for pictue hint URL
+	KUrl m_picHintUrl;
+	
+	QImage qimage;
 
         /** The current document */
         KEduVocDocument* m_document;
