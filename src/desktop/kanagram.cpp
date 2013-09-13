@@ -330,7 +330,10 @@ void Kanagram::paintEvent(QPaintEvent *)
     {
         drawTextNew(p, reveal, Qt::AlignBottom | Qt::AlignRight, 6, 0, m_blackboardRect, m_overReveal, m_cornerFontSize);
     }
+    if(!m_game->picHint().isEmpty())
+    {
     drawTextNew(p, i18n(m_textHint), Qt::AlignBottom | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overHint, m_cornerFontSize);
+    }
     drawTextNew(p, i18n(m_textPicHint), Qt::AlignTop | Qt::AlignLeft, 6, 8, m_blackboardRect, m_overPicHint, m_cornerFontSize);//////////for picture hint
 
     // update these rects because we have access to the painter and thus the fontsize here
@@ -401,7 +404,7 @@ void Kanagram::paintEvent(QPaintEvent *)
     if(m_showPicHint)
     {
 	
-       QImage a(KanagramGame::picHint().url());
+       QImage a(m_game->picHint().url());
       p.drawImage(m_picHintRect.topLeft(),a);
       
     }
@@ -672,7 +675,7 @@ void Kanagram::slotTogglePicHint()
     }
     else
     {
-        if (m_hintHideTime || KanagramGame::picHint()->text.isEmpty())
+        if (m_hintHideTime)
         {
             m_hintTimer->start(m_hintHideTime * 1000);
         }
@@ -789,7 +792,10 @@ void Kanagram::mouseMoveEvent(QMouseEvent *e)
     CheckRect(m_helpRect, p, m_overHelp, haveToUpdate);
     CheckRect(m_quitRect, p, m_overQuit, haveToUpdate);
     CheckRect(m_hintRect, p, m_overHint, haveToUpdate);
+    if(!m_game->picHint().isEmpty())
+    {
     CheckRect(m_picHintRect, p, m_overPicHint, haveToUpdate);
+    }
     CheckRect(m_hintBoxRect, p, m_overHintBox, haveToUpdate);
     CheckRect(m_revealRect, p, m_overReveal, haveToUpdate);
     CheckRect(m_upRect, p, m_overUp, haveToUpdate);
@@ -955,7 +961,7 @@ void Kanagram::hideHint()
 //////////////
 void Kanagram::hidePicHint()
 {
-  if(m_showPicHint == true || KanagramGame::picHint()->text.isEmpty())
+  if(m_showPicHint == true || !m_game->picHint().isEmpty())
   {
       m_showPicHint = false;
   }

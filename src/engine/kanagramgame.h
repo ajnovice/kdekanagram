@@ -27,7 +27,7 @@
 #include <QtCore/QObject>
 #include <QtCore/QStringList>
 #include <QtCore/QHash>
-#include <QImage>
+#include <KDE/KUrl>
 
 #include <krandomsequence.h>
 
@@ -165,7 +165,7 @@ class KANAGRAM_ENGINE_EXPORT KanagramGame : public QObject
 	////for pictue hint URL
 	KUrl m_picHintUrl;
 	
-	QImage qimage;
+	//QImage qimage;
 
         /** The current document */
         KEduVocDocument* m_document;

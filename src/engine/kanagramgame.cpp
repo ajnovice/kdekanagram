@@ -22,10 +22,11 @@
  ***************************************************************************/
 
 #include "kanagramgame.h"
-#include "../../../../../../usr/include/kde4/kurl.h"
+
 
 #include "kanagramsettings.h"
 
+#include <KDE/KUrl>
 #include <sharedkvtmlfiles.h>
 #include <keduvocdocument.h>
 #include <keduvocexpression.h>
@@ -214,7 +215,7 @@ void KanagramGame::nextAnagram()
         }
         if(m_picHintUrl.isEmpty())
 	{
-	    m_picHintUrl=i18n("No picture hint")
+	    m_picHintUrl=i18n("");
 	}
     }
     else
