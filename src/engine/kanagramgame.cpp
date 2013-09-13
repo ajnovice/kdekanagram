@@ -203,7 +203,7 @@ void KanagramGame::nextAnagram()
         // lowercase the entry text so german words that start capitalized will be lowercased
         m_originalWord = translation->text().toLower();
 	m_picHintUrl = translation->imageUrl();
-	qimage = QImage(m_picHintUrl,.kvtml);
+	
         m_answeredWords.append(m_originalWord);
         createAnagram();
         m_hint = translation->comment();
@@ -348,7 +348,7 @@ void KanagramGame::setCurrentCategory(int index)
 ////function to return the picture url
 KUrl KanagramGame::picHint()
 {
-	
+	return m_picHintUrl;
 }
 
 

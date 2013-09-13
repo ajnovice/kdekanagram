@@ -401,8 +401,8 @@ void Kanagram::paintEvent(QPaintEvent *)
     if(m_showPicHint)
     {
 	
-      QImage *a = QImage(KanagramGame::picHint().url(),0);
-      p.drawImage(a);
+       QImage a(KanagramGame::picHint().url());
+      p.drawImage(m_picHintRect.topLeft(),a);
       
     }
     

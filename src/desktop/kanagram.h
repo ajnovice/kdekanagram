@@ -29,6 +29,7 @@
 
 #include <KMainWindow>
 #include <KRandomSequence>
+#include <qimage.h>
 
 namespace Phonon
 {
@@ -135,6 +136,9 @@ class Kanagram : public KMainWindow
          *  and auto-hide hint time
          */
         void loadSettings();
+	
+	///
+	
 
         /** setup the actions and their shortcut keys */
         void setupActions();
