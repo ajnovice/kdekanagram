@@ -330,12 +330,13 @@ void Kanagram::paintEvent(QPaintEvent *)
     {
         drawTextNew(p, reveal, Qt::AlignBottom | Qt::AlignRight, 6, 0, m_blackboardRect, m_overReveal, m_cornerFontSize);
     }
+    
+    drawTextNew(p, i18n(m_textHint), Qt::AlignBottom | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overHint, m_cornerFontSize);
+    
     if(!m_game->picHint().isEmpty())
     {
-    drawTextNew(p, i18n(m_textHint), Qt::AlignBottom | Qt::AlignLeft, 6, 0, m_blackboardRect, m_overHint, m_cornerFontSize);
-    }
     drawTextNew(p, i18n(m_textPicHint), Qt::AlignTop | Qt::AlignLeft, 6, 8, m_blackboardRect, m_overPicHint, m_cornerFontSize);//////////for picture hint
-
+    }
     // update these rects because we have access to the painter and thus the fontsize here
     QFont font = KGlobalSettings::generalFont();
     font.setPointSize(m_cornerFontSize);
@@ -404,7 +405,7 @@ void Kanagram::paintEvent(QPaintEvent *)
     if(m_showPicHint)
     {
 	
-       QImage a(m_game->picHint().url());
+       QImage a(m_game->picHint().pathOrUrl());
       p.drawImage(m_picHintRect.topLeft(),a);
       
     }
