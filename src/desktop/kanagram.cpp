@@ -404,7 +404,7 @@ void Kanagram::paintEvent(QPaintEvent *)
     ///////////////////////
     if(m_showPicHint)
     {
-	
+	qDebug("Hello this is Ajay Singh\n");
        QImage a(m_game->picHint().pathOrUrl());
       p.drawImage(m_picHintRect.topLeft(),a);
       
